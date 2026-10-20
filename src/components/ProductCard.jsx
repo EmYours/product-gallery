@@ -1,6 +1,6 @@
 import { ArrowUpRight, Check, Plus } from 'lucide-react';
 
-export default function ProductCard({ product, onView, onAdd, recentlyAdded }) {
+export default function ProductCard({ product, onView, onAdd, recentlyAdded, animationKey }) {
   return (
     <article className="product-card">
       <button className="product-image" onClick={() => onView(product)} aria-label={`View ${product.name}`}>
@@ -21,7 +21,7 @@ export default function ProductCard({ product, onView, onAdd, recentlyAdded }) {
             aria-label={recentlyAdded ? `${product.name} added to bag` : `Add ${product.name} to bag`}
             title={recentlyAdded ? 'Added to bag' : 'Add to bag'}
           >
-            {recentlyAdded ? <Check size={17} /> : <Plus size={19} />}
+            {recentlyAdded ? <Check key={animationKey} size={17} /> : <Plus size={19} />}
           </button>
         </div>
       </div>

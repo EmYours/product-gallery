@@ -27,6 +27,7 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [notice, setNotice] = useState(null);
   const [recentlyAddedId, setRecentlyAddedId] = useState(null);
+  const [bagPulseKey, setBagPulseKey] = useState(0);
   const [status, setStatus] = useState('loading');
 
   useEffect(() => {
@@ -75,6 +76,7 @@ export default function App() {
     });
     setNotice({ id: Date.now(), name: product.name });
     setRecentlyAddedId(product._id);
+    setBagPulseKey((key) => key + 1);
   }, []);
 
   const changeQuantity = useCallback((productId, quantity) => {
@@ -89,7 +91,7 @@ export default function App() {
 
   return (
     <main id="top">
-      <Header search={search} setSearch={setSearch} cartCount={cartCount} onOpenCart={() => setIsCartOpen(true)} />
+      <Header search={search} setSearch={setSearch} cartCount={cartCount} bagPulseKey={bagPulseKey} onOpenCart={() => setIsCartOpen(true)} />
       <section className="intro">
         <p className="eyebrow">Object studies / 2026</p>
         <h1>Objects with<br /><em>quiet presence.</em></h1>
@@ -101,7 +103,7 @@ export default function App() {
         <FilterBar categories={categories} activeCategory={activeCategory} onSelect={setActiveCategory} total={visibleProducts.length} />
         {status === 'loading' && <p className="empty-state">Loading the collection…</p>}
         {status === 'error' && <p className="empty-state">The collection is unavailable. Start the API and confirm its database connection.</p>}
-        {status === 'ready' && (visibleProducts.length ? <div className="product-grid">{visibleProducts.map((product) => <ProductCard key={product._id} product={product} onView={setSelectedProduct} onAdd={addToCart} recentlyAdded={recentlyAddedId === product._id} />)}</div> : <p className="empty-state">No pieces match your search.</p>)}
+        {status === 'ready' && (visibleProducts.length ? <div className="product-grid">{visibleProducts.map((product) => <ProductCard key={product._id} product={product} onView={setSelectedProduct} onAdd={addToCart} recentlyAdded={recentlyAddedId === product._id} animationKey={bagPulseKey} />)}</div> : <p className="empty-state">No pieces match your search.</p>)}
       </section>
       <section className="about" id="about"><p className="eyebrow">Our approach</p><p>We choose honest materials, useful proportions, and details that reward a second look.</p></section>
       <footer><span>© 2026 Atelier</span><span>Designed for everyday rituals</span></footer>
